@@ -44,12 +44,12 @@ pool.free(vec);
 
 ### opts
 
-| Property | Type | Description | Default |
-| - | - | - | - |
-| maxSize | `int` | max pool size | `0` |
-| collectFreq | `float` | how often to remove excess objects (in ms) | `-1` |
-| create | `() => T` | function to create object | `() => {}` |
-| reset | `(T) => T` | function to reset object | `obj => obj` |
+| Property    | Type       | Description                                | Default      |
+| ----------- | ---------- | ------------------------------------------ | ------------ |
+| maxSize     | `int`      | max pool size                              | `0`          |
+| collectFreq | `float`    | how often to remove excess objects (in ms) | `-1`         |
+| create      | `() => T`  | function to create object                  | `() => {}`   |
+| reset       | `(T) => T` | function to reset object                   | `obj => obj` |
 
 ### `pool.get(any) => T`
 ### `pool.free(T) => void`
