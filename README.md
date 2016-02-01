@@ -1,11 +1,13 @@
-# object-pool
+# Object pool
 
-Simple object pool.
+[![Build Status](https://travis-ci.org/vaalentin/object-pool.svg?branch=master)](https://travis-ci.org/vaalentin/object-pool)
+
+Simple [object pool](https://en.wikipedia.org/wiki/Object_pool_pattern) implementation.
 
 ## Installation
 
-```
-$ npm i -S @vaalentin/object-pool
+```sh
+$ npm install --save @vaalentin/object-pool
 ```
 
 ## Usage
@@ -13,7 +15,6 @@ $ npm i -S @vaalentin/object-pool
 ```js
 import ObjectPool from '@vaalentin/object-pool';
 
-// our object
 class Vec2 {
   constructor(x, y) {
     this.x = x;
@@ -21,7 +22,6 @@ class Vec2 {
   }
 }
 
-// create a new pool
 const pool = new ObjectPool({
   create: (x, y) => new Vec2(x, y),
   reset: (vec, x, y) => {
@@ -31,18 +31,16 @@ const pool = new ObjectPool({
   }
 });
 
-// get an item
 const vec = pool.get(1, 3);
 
-// release when not needed anymore
 pool.free(vec);
 ```
 
 ## API
 
-### `const pool = new ObjectPool([opts])`
+#### `pool = new ObjectPool(opts)`
 
-### opts
+Create a new pool, with the possible following `opts`:
 
 | Property    | Type       | Description                                | Default      |
 | ----------- | ---------- | ------------------------------------------ | ------------ |
@@ -51,10 +49,20 @@ pool.free(vec);
 | create      | `() => T`  | function to create object                  | `() => {}`   |
 | reset       | `(T) => T` | function to reset object                   | `obj => obj` |
 
-### `pool.get(any) => T`
-### `pool.free(T) => void`
-### `pool.destruct() => void`
+#### `obj = pool.get([, args])`
+
+Get an object from the pool by calling the `reset` options with the given `args`.
+
+#### `pool.free(obj)`
+
+Release an object when not needed anymore.
+
+#### `pool.collect()`
+
+Remove availabe objects excess.
+
+#### `pool.dispose()`
 
 ## Licence
 
-MIT
+MIT, see [LICENSE.md](https://github.com/vaalentin/object-pool/blob/master/LICENSE.md) for more details.
