@@ -38,7 +38,7 @@ export default class ObjectPool {
    * @private
    */
   collect() {
-    this._available = Math.max(0, this._opts.maxSize - this._active.length);
+    this._available.length = Math.min(this._available.length, this._opts.maxSize);
   }
 
   /**
@@ -49,7 +49,7 @@ export default class ObjectPool {
    */
   get(...args) {
     const obj = this._available.length
-      ? this._opts.reset(arrayPop(this._available), ...args)
+      ? this._opts.reset(this._available.pop(), ...args)
       : this._opts.create(...args);
 
     this._active.push(obj);
@@ -74,11 +74,13 @@ export default class ObjectPool {
   }
 
   /**
-   * @method destruct
+   * @method dispose
    * @public
    */
-  destruct() {
+  dispose() {
     clearInterval(this._collectInterval);
+    this._active = null;
+    this._available = null;
   }
 }
 
